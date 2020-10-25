@@ -1,7 +1,5 @@
 import pytest
-from main import is_whispering, remove_allowed_words
-
-# TODO: Test the remaining functions
+from app.utils import is_uppercase, remove_allowed_words
 
 
 def test_remove_allowed_words_if_one_subreddit():
@@ -46,17 +44,17 @@ def test_remove_allowed_words_if_multiple_usernames():
     assert comment == expected_comment
 
 
-def test_is_whispering_if_screaming():
+def test_is_uppercase_if_screaming():
     comment_mock = "AROOOOOOO MFERSS"
 
-    whispering = is_whispering(comment_mock)
+    screaming = is_uppercase(comment_mock)
 
-    assert whispering == False
+    assert screaming == True
 
 
-def test_is_whispering_if_whispering():
+def test_is_uppercase_if_not_screaming():
     comment_mock = "Arooooo Mfers"
 
-    whispering = is_whispering(comment_mock)
+    screaming = is_uppercase(comment_mock)
 
-    assert whispering == True
+    assert screaming == False
