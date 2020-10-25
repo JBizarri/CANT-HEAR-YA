@@ -1,5 +1,5 @@
-# PRAW configuration file
-praw.ini
+# Comments that were already seen
+comments.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

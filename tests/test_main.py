@@ -15,7 +15,9 @@ def test_remove_allowed_words_if_one_subreddit():
 
 
 def test_remove_allowed_words_if_multiple_subreddits():
-    comment_mock = "r/subreddit3 really nice r/subreddit comment r/subreddit r/subreddit2"
+    comment_mock = (
+        "r/subreddit3 really nice r/subreddit comment r/subreddit r/subreddit2"
+    )
 
     expected_comment = "really nice comment"
 

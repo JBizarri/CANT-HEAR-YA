@@ -2,11 +2,18 @@ import re
 
 import praw
 
-ALREADY_SEEN = list()
+from config import (
+    ALLOWED_LOWERCASE,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    PASSWORD,
+    SUBREDDIT,
+    USER_AGENT,
+    USERNAME,
+)
 
-# RegEx for finding subreddits (r/name) and usernames (u/name)
-ALLOWED_LOWERCASE = [r"\s?r/\w+$|r/\w+\s?|\s?r/\w+",
-                     r"\s?u/\w+$|u/\w+\s?|\s?u/\w+"]
+
+from models.StoredComments import StoredComments
 
 
 def remove_allowed_words(comment: str) -> str:
@@ -19,7 +26,7 @@ def remove_allowed_words(comment: str) -> str:
         # str: String without the allowed lowercase words
     """
     for allowed_word in ALLOWED_LOWERCASE:
-        comment = re.sub(rf'{allowed_word}', "", comment)
+        comment = re.sub(rf"{allowed_word}", "", comment)
 
     return comment
 
@@ -39,33 +46,41 @@ def is_whispering(comment: str) -> bool:
     return False
 
 
-def reply_to_soft_speakers(subreddit):
-    """Reply to comments that are not all uppercase in a subreddit 
+def reply_to_soft_speakers(subreddit, stored_comments: StoredComments):
+    """Reply to comments that are not all uppercase in a subreddit
 
     Args:
         subreddit: Subreddit object from PRAW
+        stored_comments (StoredComments): Manage comments that already
+        have been read
     """
+    # TODO: Keep track of the last three posts so we can delete old comments ids from posts not in new
     for submission in subreddit.new(limit=3):
         for comment in submission.comments.list():
-            if comment.id in ALREADY_SEEN:
+            if comment.id in stored_comments:
                 continue
 
             processed_body = remove_allowed_words(comment.body)
-            # TODO: Reply to the comment
-            # TODO: List with multiple responses to choose at random
+            # TODO: Reply to the comment with multiple responses to choose at random
             if is_whispering(processed_body):
                 print(comment.body)
                 print("CAN YOU SPEAK LOUDER MFER??")
 
-            # TODO: Store each comment id in a file or something
-            ALREADY_SEEN.append(comment.id)
+            stored_comments.add(comment.id)
 
 
 def main():
-    reddit = praw.Reddit('BOT')
-    subreddit = reddit.subreddit("O_PACOTE")
+    reddit = praw.Reddit(
+        client_id=CLIENT_ID,
+        client_secret=CLIENT_SECRET,
+        password=PASSWORD,
+        username=USERNAME,
+        user_agent=USER_AGENT,
+    )
+    subreddit = reddit.subreddit(SUBREDDIT)
 
-    reply_to_soft_speakers(subreddit)
+    stored_comments = StoredComments()
+    reply_to_soft_speakers(subreddit, stored_comments)
 
 
 if __name__ == "__main__":
