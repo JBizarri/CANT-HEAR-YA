@@ -12,6 +12,7 @@ from app.models.reply.ReplyToLowercase import ReplyToLowercase
 
 
 def run():
+    print("Connecting to reddit...")
     reddit = praw.Reddit(
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
@@ -19,6 +20,8 @@ def run():
         username=USERNAME,
         user_agent=USER_AGENT,
     )
+    
+    print("Setting subreddit to", SUBREDDIT)
     subreddit = reddit.subreddit(SUBREDDIT)
-
+    
     ReplyToLowercase(subreddit, "comments.txt").reply_to_new()

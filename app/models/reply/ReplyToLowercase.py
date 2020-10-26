@@ -30,8 +30,11 @@ class ReplyToLowercase(ReplyBase):
     def _reply(self, comment):
         processed_body = self._remove_allowed_words(comment.body)
         if not self._is_uppercase(processed_body):
+            print("Replying...")
             message = self._get_random_message()
             comment.reply(message)
+        else:
+            print("OK")
 
     def _remove_allowed_words(self, text: str):
         """Remove words that are allowed to be lowercase
