@@ -1,14 +1,11 @@
 import os
 
-from app.config import COMMENTS_FILE
 
-
-# TODO: Replace with a DB for best practice although not necessary
 # TODO: Method for deleting old IDs since the main script only search in the NEW feed
 # TODO: Tests for this class
 class StoredComments:
-    def __init__(self):
-        self._path = COMMENTS_FILE
+    def __init__(self, filename: str = "comments.txt"):
+        self._path = os.path.join(os.getcwd(), "app", "resources", filename)
 
         self._create_file()
 

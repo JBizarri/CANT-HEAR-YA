@@ -8,8 +8,7 @@ from app.config import (
     USER_AGENT,
     USERNAME,
 )
-from app.models.StoredComments import StoredComments
-from app.replies import reply_to_lowercase
+from app.models.reply.ReplyToLowercase import ReplyToLowercase
 
 
 def run():
@@ -22,5 +21,4 @@ def run():
     )
     subreddit = reddit.subreddit(SUBREDDIT)
 
-    stored_comments = StoredComments()
-    reply_to_lowercase(subreddit, stored_comments)
+    ReplyToLowercase(subreddit, "comments.txt").reply_to_new()
