@@ -7,7 +7,7 @@ from app.config import DATABASE_URL
 class Psql:
     @staticmethod
     def _connect_to_db():
-        return psycopg2.connect(DATABASE_URL, sslmode="required")
+        return psycopg2.connect(DATABASE_URL)
 
     def execute_query(self, query, params=tuple()):
         conn = self._connect_to_db()
