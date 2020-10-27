@@ -1,21 +1,13 @@
 from os import stat
 
 import psycopg2
-from app.config import (DATABASE, DATABASE_PASS, DATABASE_PORT, DATABASE_URL,
-                        DATABASE_USER)
+from app.config import DATABASE_URL
 
 
 class Psql:
     @staticmethod
     def _connect_to_db():
-        conn = psycopg2.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASS,
-            host=DATABASE_URL,
-            port=DATABASE_PORT,
-            database=DATABASE,
-        )
-        return conn
+        return psycopg2.connect(DATABASE_URL, sslmode="required")
 
     def execute_query(self, query, params=tuple()):
         conn = self._connect_to_db()
