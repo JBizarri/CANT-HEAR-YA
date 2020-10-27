@@ -20,12 +20,12 @@ MESSAGES = [
 
 
 class ReplyToLowercase(ReplyBase):
-    def __init__(self, subreddit, comments_storage) -> None:
+    def __init__(self, subreddit) -> None:
         self._allowed_words = [
             r"\s?r/\w+$|r/\w+\s?|\s?r/\w+",
             r"\s?u/\w+$|u/\w+\s?|\s?u/\w+",
         ]
-        super().__init__(subreddit, comments_storage)
+        super().__init__(subreddit)
 
     def _reply(self, comment):
         processed_body = self._remove_allowed_words(comment.body)

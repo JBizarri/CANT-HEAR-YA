@@ -1,13 +1,7 @@
 import praw
 
-from app.config import (
-    CLIENT_ID,
-    CLIENT_SECRET,
-    PASSWORD,
-    SUBREDDIT,
-    USER_AGENT,
-    USERNAME,
-)
+from app.config import (CLIENT_ID, CLIENT_SECRET, PASSWORD, SUBREDDIT,
+                        USER_AGENT, USERNAME)
 from app.models.reply.ReplyToLowercase import ReplyToLowercase
 
 
@@ -20,8 +14,8 @@ def run():
         username=USERNAME,
         user_agent=USER_AGENT,
     )
-    
+
     print("Setting subreddit to", SUBREDDIT)
     subreddit = reddit.subreddit(SUBREDDIT)
-    
-    ReplyToLowercase(subreddit, "comments.txt").reply_to_new()
+
+    ReplyToLowercase(subreddit).reply_to_new()
