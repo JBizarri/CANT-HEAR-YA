@@ -1,7 +1,7 @@
 import pytest
 from app.utils import is_uppercase, remove_allowed_words
 
-
+# TODO: Fix tests
 def test_remove_allowed_words_if_one_subreddit():
     comment_mock = "really nice comment r/subreddit"
 

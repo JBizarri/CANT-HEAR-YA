@@ -10,7 +10,6 @@ class ReplyBase(ABC):
         self._psql = Psql()
 
     def reply_to_new(self):
-        # TODO: Keep track of the last three posts so we can delete old comments ids from posts not in new
         stored_comments = self._fetch_comments()
 
         new_comments = dict()
