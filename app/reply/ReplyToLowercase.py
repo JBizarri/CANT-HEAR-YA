@@ -1,7 +1,7 @@
 import re
 from random import choice
 
-from app.models.reply.ReplyBase import ReplyBase
+from .ReplyBase import ReplyBase
 
 MESSAGES = [
     "NÃO TO TE OUVINDO MEU CONSAGRADO, PODE FALAR UM POUQUINHO MAIS ALTO??",
