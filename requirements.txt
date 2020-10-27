@@ -1,3 +1,4 @@
 praw==7.1.0
 pytest==6.1.1
 pytest-env==0.6.2
+-e https://github.com/psycopg/psycopg2/archive/2_8_6.tar.gz
