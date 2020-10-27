@@ -1,4 +1,4 @@
 praw==7.1.0
 pytest==6.1.1
 pytest-env==0.6.2
-pyscopg2-binary==2.8.6
+pyscopg2-binary
