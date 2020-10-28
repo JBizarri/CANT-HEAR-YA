@@ -43,16 +43,14 @@ class ReplyBase(ABC):
         return [comment[0] for comment in result]
     
     def _delete_old_comments(self, new):
-        print("Deleting old Comments' IDs")
         result = delete_old_comments(self._psql, tuple(new.keys()))
         if not result:
-            print(f"Deleted {result} old Comments' IDs")
+            print(f"Deleted old Comments' IDs status message: {result}")
   
     def _insert_comments(self, comments):
-        print("Inserting Comments' IDs to DB")
         param = [(id_,) for id_, new in comments.items() if new]
         if param:
             result = insert_comments(self._psql, param)
-            print(f"Inserted {result} new Comments' IDs")
+            print(f"Insert new Comments' IDs status message: {result}")
         else:
-            print("No new Comments' IDs to insert")
+            print("No new Comments' IDs")

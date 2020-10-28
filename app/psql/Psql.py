@@ -45,18 +45,20 @@ class Psql:
         try:
             self.cursor.execute(sql, (params,))
         except Exception as error:
+            self.connection.rollback()
             print('error execting query "{}", error: {}'.format(sql, error))
             return None
         else:
             self.connection.commit()
-            return self.cursor.rowcount
+            return self.cursor.statusmessage
 
     def execute_many(self, sql, params=tuple()):
         try:
             psycopg2.extras.execute_values(self.cursor, sql, params)
         except Exception as error:
+            self.connection.rollback()
             print('error execting query "{}", error: {}'.format(sql, error))
             return None
         else:
             self.connection.commit()
-            return self.cursor.rowcount
+            return self.cursor.statusmessage

@@ -8,4 +8,3 @@ USER_AGENT = os.environ["USER_AGENT"]
 SUBREDDIT = os.environ["SUBREDDIT"]
 
 DATABASE_URL = os.environ["DATABASE_URL"]
-
