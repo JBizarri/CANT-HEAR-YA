@@ -29,7 +29,7 @@ MESSAGES = [
 class ReplyToLowercase(ReplyBase):
     def __init__(self, subreddit) -> None:
         self._end_message = (
-            "EU SOU UM ROBÔ E ESSA AÇÃO FOI FEITA AUTOMATICAMENTE\n"
+            "EU SOU UM ROBÔ E ESSA AÇÃO FOI FEITA AUTOMATICAMENTE\n\n"
             "[GITHUB](https://github.com/JBizarri/CANT-HEAR-YA) | [U/JEFFEWWASTAKEN](https://www.reddit.com/user/JeffewWasTaken)"
         )
 
@@ -68,7 +68,7 @@ class ReplyToLowercase(ReplyBase):
 
     def _get_random_message(self):
         body = choice(MESSAGES)
-        return f"#{body}\n\n{self._end_message}"
+        return f"#{body}\n\n\n\n{self._end_message}"
 
     @staticmethod
     def _is_uppercase(text: str):
