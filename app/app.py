@@ -18,4 +18,4 @@ def run():
     print("Setting subreddit to", SUBREDDIT)
     subreddit = reddit.subreddit(SUBREDDIT)
 
-    ReplyToLowercase(subreddit).reply_to_new()
+    ReplyToLowercase(subreddit, limit=10).reply_to_new()

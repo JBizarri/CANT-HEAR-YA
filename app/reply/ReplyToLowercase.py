@@ -1,34 +1,13 @@
+from app.dao import fetch_responses, fetch_vocatives
 import re
 from random import choice
 
 from .ReplyBase import ReplyBase
 
-MESSAGES = [
-    "NÃO TO TE OUVINDO MEU CONSAGRADO, PODE FALAR UM POUQUINHO MAIS ALTO??",
-    "QUE????????????",
-    "FALA MAIS ALTO NÃO TE ESCUTOOO",
-    "FALANDO BAIXO ASSIM EU NÃO TE ESCUTO MEU MAGNÂNIMO",
-    "PRA INTERAGIR TEM QUE GRITAR QUE ESSE ESQUELETO JÁ TÁ VELHO E SURDO",
-    "VOU FINGIR QUE TE ESCUTEI MEU ARISTOCRATA",
-    "PODE CHEGAR UM POUQUINHO MAIS PERTO E GRITAR NO MEU OUVIDO??",
-    "TÁ COM VERGONHA?? FALA MAIS ALTO MEU SUSSURADOR!!",
-    "SÓ QUERIA DUAS COISAS NESSE MUNDO: 1 (UM) QUE A MORENA ME NOTASSE E 2 (DOIS) QUE FALASSEM MAIS ALTO PRA EU CONSEGUIR ENTENDER",
-    "DICA DE CÁLCIO: APERTA CAPS LOCK UMA VEZ E DEPOIS NUNCA MAIS!!",
-    "VOU AUMENTAR TEU VOLUME NO AUDACITY E TE AVISO",
-    "ALGUEM OUVIU ALGUMA COISA??",
-    "TÁ NO TUNEL?? A LIGAÇÃO TÁ CORTANDO FALA MAIS ALTO!!!",
-    "NÃO ESCUTEI MEU TREVOSO, PODE REPETIR?",
-    "TÓ AQUI ESSA MEGAFONE PRA VER SE TE AJUDA, MEU MUDO 📣",
-    "TIRA O COROTE DA BOCA E FALA DE NOVO",
-    "PARANOIA MINHA OU ESSE DAÍ TÁ FALANDO MUITO BAIXO?",
-    "EU JÁ SOU MOUCO DAÍ VC VEM E ME FALA BAIXO, AI NÃO MEU PARCEIRO",
-    "ALÔ??? ALÔ? NÃO TO OUVINDO!! QUEM É?!?!!??",
-]
-
 
 class ReplyToLowercase(ReplyBase):
-    def __init__(self, subreddit) -> None:
-        self._end_message = (
+    def __init__(self, subreddit, limit=3) -> None:
+        self._footer = (
             "EU SOU UM ROBÔ E ESSA AÇÃO FOI FEITA AUTOMATICAMENTE\n\n"
             "[GITHUB](https://github.com/JBizarri/CANT-HEAR-YA) | [U/JEFFEWWASTAKEN](https://www.reddit.com/user/JeffewWasTaken)"
         )
@@ -39,7 +18,7 @@ class ReplyToLowercase(ReplyBase):
             "users": r"\s?u/\w+$|u/\w+\s?|\s?u/\w+",
         }
 
-        super().__init__(subreddit)
+        super().__init__(subreddit, limit)
 
     def _reply(self, comment):
         processed_body = self._parse_comment(comment.body)
@@ -67,9 +46,26 @@ class ReplyToLowercase(ReplyBase):
         return text
 
     def _get_random_message(self):
-        body = choice(MESSAGES)
-        return f"#{body}\n\n\n\n{self._end_message}"
+        messages = self._fetch_responses()
+        vocatives = self._fetch_vocatives()
+        
+        message = choice(messages)
+        vocative = choice(vocatives)
+        
+        body = message.format(vocative)
+        
+        return f"{body}\n\n\n\n{self._footer}"
 
+    def _fetch_responses(self):
+        messages = fetch_responses(self._psql)
+        
+        return [message[0] for message in messages]
+    
+    def _fetch_vocatives(self):
+        vocatives = fetch_vocatives(self._psql)
+        
+        return [vocative[0] for vocative in vocatives]
+    
     @staticmethod
     def _is_uppercase(text: str):
         """Check if some string is not all uppercase

@@ -17,3 +17,15 @@ def delete_old_comments(psql: Psql, comments: tuple):
     sql = "DELETE FROM comments WHERE comment NOT IN %s"
 
     return psql.execute(sql, params=comments)
+
+
+def fetch_responses(psql: Psql):
+    sql = "SELECT * FROM responses"
+    
+    return psql.fetchall(sql)
+
+
+def fetch_vocatives(psql: Psql):
+    sql = "SELECT * FROM vocatives"
+    
+    return psql.fetchall(sql)
