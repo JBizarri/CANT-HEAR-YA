@@ -13,7 +13,7 @@ class ReplyToLowercase(ReplyBase):
         )
 
         self._regexes = {
-            "urls": r"\((http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?\)",
+            "urls": r"(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?",
             "subreddits": r"\s?r/\w+$|r/\w+\s?|\s?r/\w+",
             "users": r"\s?u/\w+$|u/\w+\s?|\s?u/\w+",
         }
