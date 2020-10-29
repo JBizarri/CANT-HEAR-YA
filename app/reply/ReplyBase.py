@@ -5,16 +5,17 @@ from app.psql.Psql import Psql
 
 
 class ReplyBase(ABC):
-    def __init__(self, subreddit) -> None:
+    def __init__(self, subreddit, limit=3) -> None:
         self._subreddit = subreddit
+        self._limit = limit
         self._psql = Psql()
 
     def reply_to_new(self):
         stored_comments = self._fetch_comments()
 
         new_comments = dict()
-        print("Reading comments from last 3 posts...")
-        for submission in self._subreddit.new(limit=3):
+        print(f"Reading comments from last {self._limit} posts...")
+        for submission in self._subreddit.new(limit=self._limit):
             for comment in submission.comments.list():
 
                 if comment.id in stored_comments:
