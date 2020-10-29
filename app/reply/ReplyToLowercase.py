@@ -62,7 +62,7 @@ class ReplyToLowercase(ReplyBase):
         for regex in self._regexes.values():
             text = re.sub(regex, "", text)
         
-        text = text.replace('\n', "")          
+        text = text.replace('\n', " ")          
 
         return text
 
