@@ -13,10 +13,12 @@ class Psql:
             try:
                 print("Connecting to PostgreSQL database...")
                 connection = Psql._instance.connection = psycopg2.connect(DATABASE_URL)
-                Psql._instance.cursor = connection.cursor()
+                Psql._instance.cursor = connection.cursor(
+                    cursor_factory=psycopg2.extras.DictCursor
+                )
             except Exception as error:
                 print(f"Error: connection not established\n{error}")
-            
+
             return cls._instance
 
     def __init__(self):
@@ -25,8 +27,8 @@ class Psql:
 
     def __del__(self):
         self.cursor.close()
-        self.connection.close()            
-    
+        self.connection.close()
+
     def execute(self, sql, params=tuple(), fetchall=False):
         try:
             self.cursor.execute(sql, (params,))
