@@ -13,7 +13,7 @@ class ReplyBase(ABC):
 
     def reply_to_new(self):
         stored_comments = self._fetch_comments()
-
+        
         new_comments = dict()
         print(f"Reading comments from last {self._limit} posts...")
         for submission in self._subreddit.new(limit=self._limit):
@@ -40,11 +40,11 @@ class ReplyBase(ABC):
 
     def _fetch_comments(self):
         print("Fetching Comments' IDs from DB")
-        result = fetch_comments(self._psql)
-        if result is None:
+        comments = fetch_comments(self._psql)
+        if comments is None:
             return list()
 
-        return [comment[0] for comment in result]
+        return [comment['comment'] for comment in comments]
 
     def _delete_old_comments(self, new):
         result = delete_old_comments(self._psql, tuple(new.keys()))
