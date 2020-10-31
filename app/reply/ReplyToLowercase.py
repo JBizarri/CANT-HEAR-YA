@@ -38,32 +38,32 @@ class ReplyToLowercase(ReplyBase):
         """
         for regex in self._regexes.values():
             text = re.sub(regex, "", text)
-        
-        text = text.replace('\n', " ")          
+
+        text = text.replace("\n", " ")
 
         return text
 
     def _get_random_message(self):
         messages = self._fetch_responses()
         vocatives = self._fetch_vocatives()
-        
-        message = choice(messages).replace('\\n', '\n')
+
+        message = choice(messages).replace("\\n", "\n")
         vocative = choice(vocatives)
-        
+
         body = message.format(vocative)
-        
+
         return f"{body}\n\n{self._footer}"
 
     def _fetch_responses(self):
         responses = fetch_responses(self._psql)
-        
-        return [response['response'] for response in responses]
-    
+
+        return [response["response"] for response in responses]
+
     def _fetch_vocatives(self):
         vocatives = fetch_vocatives(self._psql)
-        
-        return [vocative['vocative'] for vocative in vocatives]
-    
+
+        return [vocative["vocative"] for vocative in vocatives]
+
     @staticmethod
     def _is_uppercase(text: str):
         """Check if some string is not all uppercase
