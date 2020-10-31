@@ -23,11 +23,9 @@ class ReplyToLowercase(ReplyBase):
     def _reply(self, comment):
         processed_body = self._parse_comment(comment.body)
         if not self._is_uppercase(processed_body):
-            print("Replying...")
+            print(f"Replying to {comment.author.name}...")
             message = self._get_random_message()
             comment.reply(message)
-        else:
-            print("OK")
 
     def _parse_comment(self, text: str):
         """Remove words that are allowed to be lowercase
