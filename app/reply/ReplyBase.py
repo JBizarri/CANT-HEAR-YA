@@ -19,7 +19,7 @@ class ReplyBase(ABC):
         for submission in self._subreddit.new(limit=self._limit):
             for comment in submission.comments.list():
 
-                if comment.author.name == USERNAME:
+                if comment.author and comment.author.name == USERNAME:
                     continue
 
                 if comment.id in stored_comments:
